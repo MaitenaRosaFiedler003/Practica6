@@ -1,0 +1,3 @@
+C:/Users/Maitena/Downloads/Practica6Maitena/Practica6Maitena/cmake-build-debug/CMakeFiles/P2.dir
+C:/Users/Maitena/Downloads/Practica6Maitena/Practica6Maitena/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/Maitena/Downloads/Practica6Maitena/Practica6Maitena/cmake-build-debug/CMakeFiles/rebuild_cache.dir
