@@ -137,7 +137,13 @@ vector<pair<Usuario, Trayecto>>* Reanelcar::trayectosEnFecha(const Fecha &f) {
 }
 
 Usuario * Reanelcar::buscarUsrNifTHash(const string &nif) {
+   return  this->usersNif->buscar(this->usersNif->djb2(nif));
 }
 
 bool Reanelcar::borrarUsuarioHash(const string &nif) {
+    //primero lo buscamos antes de borrar asi primero borramos su info relacionada
+    Usuario *s = this->buscarUsrNifTHash(nif);
+    s->eliminarTrayectos();
+    s->setC(nullptr);
+    this->usersNif->borrar(this->usersNif->djb2(nif));
 }

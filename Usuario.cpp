@@ -42,11 +42,13 @@ Usuario::Usuario(const string &nif, const string &clave, const string &nombre, c
                                                                                                           direccion(
                                                                                                                   direccion) {
     this->coche =nullptr;
+    this->puntos = 100;
 }
 
 Usuario::Usuario() {
     this->coche = nullptr;
     this->nif = -1 ;
+    this->puntos =100;
 }
 
 Usuario::~Usuario() {
@@ -54,14 +56,24 @@ Usuario::~Usuario() {
     coche = nullptr;
 }
 
+void Usuario::decremetarPuntos(const int &retraso) {
+    this->puntos= this->puntos - retraso;
+}
+
+int Usuario::get_puntos() const {
+    return puntos;
+}
+
+void Usuario::set_puntos(int puntos) {
+    this->puntos = puntos;
+}
+
 Coche *Usuario::getC() const {
     return coche;
 }
 
-void Usuario::setC(const Coche &c) {
-
-    this->coche = new Coche(c);
-
+void Usuario::setC( Coche *c) {
+    this->coche = new Coche(*c);
 }
 
 bool Usuario::operator==(Usuario &otro) {
@@ -92,7 +104,7 @@ Coche &Usuario::iniciaTrayecto(int idPuntoinicio, int idPuntoFinal, Fecha fIni, 
     return Linkreanel->alquilar(*this,idPuntoinicio,idPuntoFinal,fIni,fFin);
 }
 
-void Usuario::aparcarCoche(Coche &c, PuntoRecarga &pr) {
+void Usuario::aparcarCoche(Coche &c, PuntoRecarga &pr, const int &retraso) {
     Linkreanel->colocarcochePR(&c,pr);
     coche= nullptr;
 }
@@ -151,12 +163,18 @@ Trayecto * Usuario::getTrayecto(int id) {
 }
 
 void Usuario::aparcarCoche(const Coche &c, PuntoRecarga &pr, const int &retraso) {
+
+       /* if() { //si se paso de fecha
+            this->decrementarPuntos(retraso);
+        }*/
 }
 
 void Usuario::decrementarPuntos(const int &retraso) {
+    this->puntos = this->puntos - retraso;
 }
 
 void Usuario::eliminarTrayectos() {
+   this->route.clear();
 }
 
 

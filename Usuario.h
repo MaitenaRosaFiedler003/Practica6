@@ -22,13 +22,17 @@ private:
     string nombre;
     string direccion;
     Coche *coche;
+    int puntos;
     Reanelcar *Linkreanel;
     std::multimap<Fecha,Trayecto> route; //Clave es la fecha de inicio
 
 
 public:
+    void decremetarPuntos(const int &retraso);
+    int get_puntos() const;
+    void set_puntos(int puntos);
     Coche *getC() const;
-    void setC(const Coche &c);
+    void setC( Coche *c);
     const string &getNif() const;
     void setNif(const string &nif);
     const string &getClave() const;
@@ -41,7 +45,7 @@ public:
     Coche& cogecoche();
     Trayecto* crearTrayecto(PuntoRecarga &ori,PuntoRecarga& des,Fecha &fInicio,Fecha &fFin);
     Coche& iniciaTrayecto(int idPuntoinicio,int idPuntoFinal,Fecha fIni,Fecha fFin);
-    void aparcarCoche(Coche& c,PuntoRecarga& pr);
+    void aparcarCoche(Coche& c,PuntoRecarga& pr, const int &retraso);
     vector<Trayecto>& getTrayectosFechasInicial(const Fecha &f);
     vector<Trayecto>& getTrayectosFechasFinal(const Fecha &f);
     int numTrayectos();
@@ -50,9 +54,7 @@ public:
     Trayecto *getTrayecto(int id);
 
     void aparcarCoche(const Coche &c, PuntoRecarga& pr, const int &retraso );
-
     void decrementarPuntos(const int &retraso);
-
     void eliminarTrayectos();
 
     Usuario();

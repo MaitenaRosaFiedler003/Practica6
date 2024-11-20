@@ -24,7 +24,7 @@ class PuntoRecarga {
     int id;
     UTM posicion;
     int max;
-    priority_queue<Coche*> chargepoint;
+    priority_queue<Coche*> chargepoint; //prioridad a nivel de bateria
 
 
 public:
