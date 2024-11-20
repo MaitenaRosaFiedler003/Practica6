@@ -13,15 +13,33 @@
 using namespace std;
 void pruebaRendimiento();
 void prueba2();
-
-
+void prueba1();
+void ReadandLoadfilePuntoRecarga(vector<PuntoRecarga> &pr,const string filename);
+void ReadandLoadfileCoches(map<string,Coche> &c,const string &filename);
+void ReadandLoadfileUsuarios(ThashUsuario &usuarios,const string filename);
 /**
  * @author Ela Labidi el000020@red.ujaen.es
  * @author Maitena María Rosa Fiedler mmmrf0008@red.ujaen.es
  */
 
 int main() {
+    //Primero cargamos los puntos de recarga,los usuarios y los coches
+    vector<PuntoRecarga> precargas;
+    ThashUsuario usuarios;
+    map<string,Coche> coches;
 
+
+
+    cout << "Cargando coches" << endl;
+    ReadandLoadfileCoches(coches,"../coches.csv");
+
+    cout << "Cargando usuarios " << endl;
+    ReadandLoadfileUsuarios(usuarios,"../usuarios1.csv");
+
+    cout << "Cargando Puntos de recarga " << endl;
+    ReadandLoadfilePuntoRecarga(precargas,"../puntos_recarga.csv");
+
+    Reanelcar rel(&coches, &precargas, &usuarios);
 
 }
 
@@ -88,7 +106,7 @@ void ReadandLoadfileCoches(map<string,Coche> &c,const string &filename){
         cout << "Error de apertura en archivo" << endl;
     }
 }
-void ReadandLoadfileUsuarios(list<Usuario> &usuarios,const string filename){
+void ReadandLoadfileUsuarios(ThashUsuario &usuarios,const string filename){
     ifstream is;
     stringstream  columnas;
     string fila;
@@ -110,8 +128,8 @@ void ReadandLoadfileUsuarios(list<Usuario> &usuarios,const string filename){
                 fila="";
                 columnas.clear();
 
-                Usuario aux(nif, clave, nombre, dir);
-                usuarios.push_back(aux);
+                Usuario *aux = new Usuario(nif, clave, nombre, dir);
+                usuarios.insertar(stoi(nif), aux);
 
             }
         }
@@ -125,20 +143,9 @@ void pruebaRendimiento() {
 
 }
 void prueba2() {
-    //Primero cargamos los puntos de recarga,los usuarios y los coches
-    vector<PuntoRecarga> Precargas;
-    list<Usuario> usuarios;
-    map<string,Coche> coches;
-    bool asignar= false;
 
-    cout << "Cargando coches" << endl;
-    ReadandLoadfileCoches(coches,"../coches.csv");
-
-    cout << "Cargando usuarios " << endl;
-    ReadandLoadfileUsuarios(usuarios,"../usuarios1.csv");
-
-    cout << "Cargando Puntos de recarga " << endl;
-    ReadandLoadfilePuntoRecarga(Precargas,"../puntos_recarga.csv");
+}
+void prueba1() {
 
 }
 

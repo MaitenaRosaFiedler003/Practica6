@@ -42,8 +42,8 @@ public:
     void setPosicion(const UTM &posicion);
     int getMax() const;
     void setMax(int max);
-    multimap<int, Coche *> &getCoches() ;
-    void setCoches(const multimap<int, Coche *> &coches);
+    priority_queue<Coche*> &getCoches() ;
+    void setCoches(const priority_queue<Coche*> &coches);
     PuntoRecarga &operator=(const PuntoRecarga &f);
 };
 

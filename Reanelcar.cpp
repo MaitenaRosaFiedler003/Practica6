@@ -26,7 +26,7 @@ Coche& Reanelcar::alquilar(Usuario &usr, int idPRorigin, int idPRDestino, Fecha 
     Trayecto* t= usr.crearTrayecto(*prO,*prD,fIni,fFin);
 
     Coche* c= prO->getMaxBateria();
-    usr.setC(*c);
+    usr.setC(c);
     t->setCoche(*c);
     usr.setTrayecto(*t, fIni);
 
@@ -142,8 +142,13 @@ Usuario * Reanelcar::buscarUsrNifTHash(const string &nif) {
 
 bool Reanelcar::borrarUsuarioHash(const string &nif) {
     //primero lo buscamos antes de borrar asi primero borramos su info relacionada
-    Usuario *s = this->buscarUsrNifTHash(nif);
-    s->eliminarTrayectos();
-    s->setC(nullptr);
-    this->usersNif->borrar(this->usersNif->djb2(nif));
+    Usuario *s = nullptr;
+    s = this->buscarUsrNifTHash(nif);
+
+    if(s != nullptr) {
+        s->eliminarTrayectos();
+        s->setC(nullptr);
+        return this->usersNif->borrar(this->usersNif->djb2(nif));
+    }
+    return false;
 }

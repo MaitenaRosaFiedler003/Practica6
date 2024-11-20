@@ -5,19 +5,18 @@
 #include <vector>
 #include "PuntoRecarga.h"
 #include "Coche.h"
-/*
+
 Coche* PuntoRecarga::getMaxBateria(){
     Coche *aux = nullptr;
 
-    multimap<int, Coche*>::iterator mayor;
-    mayor = this->coches.begin();
 
-    for ( multimap<int, Coche*>::iterator i = this->coches.begin(); i != this->coches.end(); ++i)
+    Coche *mayor = this->chargepoint.top();
+
+    while(!this->chargepoint.empty())
     {
-        if(i->second->getNivelBateria() >mayor->second->getNivelBateria()) {
-            mayor = i;
-            aux = mayor->second;
-
+        if(this->chargepoint.top()->getNivelBateria() > mayor->getNivelBateria()) {
+            mayor = this->chargepoint.top();
+            aux = mayor;
         }
     }
 
@@ -39,8 +38,8 @@ float UTM::lon1() const {
 
 bool PuntoRecarga::addCoche(Coche *c) {
 
-    if(this->coches.size() < this->max){
-        this->coches.insert({c->getNivelBateria() , c});
+    if(this->chargepoint.size() < this->max){
+        this->chargepoint.push(c);
         c->setP(this);
         return true;
     }
@@ -48,23 +47,17 @@ bool PuntoRecarga::addCoche(Coche *c) {
 }
 
 void PuntoRecarga::delCoche(const string &matricula) {
-    multimap<int,Coche*>::iterator i;
-    i=coches.begin();
-    while (i!= coches.end()){
-        if(i->second->getIdMatricula()==matricula){
-            coches.erase(i);
+
+
+    while (!this->chargepoint.empty()){
+        if(this->chargepoint.top()->getIdMatricula()==matricula){
+            this->chargepoint.pop();
         }
-        i++;
     }
 }
 
 int PuntoRecarga::getNumCoches() const {
-    int count = 0;
-
-    for( multimap<int, Coche *>::const_iterator iter = this->coches.begin(); iter != this->coches.end(); ++iter) {
-        count++;
-    }
-    return count;
+   return this->chargepoint.size();
 }
 
 PuntoRecarga::PuntoRecarga(): posicion(0,0) {
@@ -75,7 +68,7 @@ PuntoRecarga::PuntoRecarga(): posicion(0,0) {
 PuntoRecarga::PuntoRecarga(const PuntoRecarga &p): posicion(p.posicion) {
     this->id = p.id;
     this->max = p.max;
-    this->coches = p.coches;
+   this->chargepoint = p.chargepoint;
 }
 
 PuntoRecarga::PuntoRecarga(const int &id,const  UTM &posicion,const  int &max): id(id), posicion(posicion), max(max) {
@@ -110,21 +103,20 @@ void PuntoRecarga::setMax(int max) {
     PuntoRecarga::max = max;
 }
 
-multimap<int, Coche *> &PuntoRecarga::getCoches()  {
-    return coches;
+priority_queue<Coche*> &PuntoRecarga::getCoches()  {
+    return this->chargepoint;
 }
 
-void PuntoRecarga::setCoches(const multimap<int, Coche *> &coches) {
-    PuntoRecarga::coches = coches;
+void PuntoRecarga::setCoches(const priority_queue<Coche*> &coches) {
+    this->chargepoint = coches;
 }
 
 PuntoRecarga & PuntoRecarga::operator=(const PuntoRecarga &f) {
     if(this != &f) {
-        this->coches = f.coches;
+        this->chargepoint = f.chargepoint;
         this->id = f.getId();
         this->posicion = f.getPosicion();
         this->max = f.getMax();
     }
     return *this;
 }
-*/

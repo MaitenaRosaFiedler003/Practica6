@@ -123,6 +123,12 @@ public:
      * @return si se borró con éxito
      */
     bool borrarUsuarioHash(const string &nif);
+
+    Reanelcar(map<string, Coche> *cars, vector<PuntoRecarga> *sites, ThashUsuario *users_nif)
+     : cars(cars),
+       sites(sites),
+       usersNif(users_nif) {
+    }
 };
 
 

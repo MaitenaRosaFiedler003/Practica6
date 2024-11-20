@@ -16,7 +16,7 @@ public:
 
     long getClave() const;
     void set_clave(long clave);
-    Usuario * getUsuarios() const;
+    Usuario * getUsuario() const;
     void set_usuario(Usuario *usuario);
 };
 
@@ -24,12 +24,10 @@ class ThashUsuario {
 private:
     long clave;
     vector<Entrada> usuarios;
-    unsigned int tamMax65 =0;
     int max_col = 0; //mide las colisiones que han ocurrido en una inserción
     int max_colisiones_10 =0; //mide la cantidad de veces que se pasa de las 10 colisones
     int factor_carga =0;
     int colisiones =0;
-    unsigned int tamMax68 =0;
     int util =0; //cant de elements
     unsigned int tam_max =0;
 
@@ -93,7 +91,7 @@ public:
      */
     ThashUsuario(const int &maxElementos, const float &lambda=0.7);
 
-    unsigned int calculaPrimo(const int &primo);
+    static unsigned int calculaPrimo(const int &primo);
 
     static bool esPrimo(const int &num);
 
@@ -150,19 +148,15 @@ public:
     void set_clave(long clave);
     vector<Entrada> getUsuarios() const;
     void set_usuarios(const vector<Entrada> &usuarios);
-    unsigned int getTam_max65();
-    void set_tam_max65(unsigned int tam_max65);
-    int max_col1() const;
+    int getMaxColisiones() const;
     void set_max_col(int max_col);
     int getColisiones() const;
     void set_colisiones(int colisiones);
-    int max_colisiones_11() const;
     void set_max_colisiones_10(int max_colisiones_10);
-    int factor_carga1() const;
+    int get_max_colisiones_10() const;
+    int getFactorCarga() const;
     void set_factor_carga(int factor_carga);
-    unsigned int getTam_max68();
-    void set_tam_max68(unsigned int tam_max68);
-    int util1() const;
+    int getUtil() const;
     void set_util(int util);
 };
 

@@ -4,7 +4,7 @@
 
 #include "ThashUsuario.h"
 
-#include <math.h>
+#include <cmath>
 #include <valarray>
 
 unsigned int ThashUsuario::numElementos() const {
@@ -27,16 +27,9 @@ void ThashUsuario::set_usuarios(const vector<Entrada> &usuarios) {
     this->usuarios = usuarios;
 }
 
-unsigned int ThashUsuario::getTam_max65() {
-    this->tamMax65 = 10000 / 0.65;
-    return tamMax65;
-}
 
-void ThashUsuario::set_tam_max65(unsigned int tam_max65) {
-    tamMax65 = tam_max65;
-}
 
-int ThashUsuario::max_col1() const {
+int ThashUsuario::getMaxColisiones() const {
     return max_col;
 }
 
@@ -52,15 +45,17 @@ void ThashUsuario::set_colisiones(int colisiones) {
     this->colisiones = colisiones;
 }
 
-int ThashUsuario::max_colisiones_11() const {
-    return max_colisiones_10;
-}
+
 
 void ThashUsuario::set_max_colisiones_10(int max_colisiones_10) {
     this->max_colisiones_10 = max_colisiones_10;
 }
 
-int ThashUsuario::factor_carga1() const {
+int ThashUsuario::get_max_colisiones_10() const {
+    return max_colisiones_10;
+}
+
+int ThashUsuario::getFactorCarga() const {
     return factor_carga;
 }
 
@@ -68,21 +63,16 @@ void ThashUsuario::set_factor_carga(int factor_carga) {
     this->factor_carga = factor_carga;
 }
 
-unsigned int ThashUsuario::getTam_max68() {
-    this->tamMax68 = 10000/0.68;
-    return tamMax68;
-}
-
-void ThashUsuario::set_tam_max68(unsigned int tam_max68) {
-    tamMax68 = tam_max68 ;
-}
-
-int ThashUsuario::util1() const {
+int ThashUsuario::getUtil() const {
     return util;
 }
 
 void ThashUsuario::set_util(int util) {
     this->util = util;
+}
+
+Entrada::Entrada() {
+    this->clave =0;
 }
 
 long Entrada::getClave() const {
@@ -93,7 +83,7 @@ void Entrada::set_clave(long clave) {
     this->clave = clave;
 }
 
-Usuario * Entrada::getUsuarios() const {
+Usuario * Entrada::getUsuario() const {
     return usuario;
 }
 
@@ -102,21 +92,20 @@ void Entrada::set_usuario(Usuario *usuario) {
 }
 
 unsigned int ThashUsuario::hashCuadratica(const unsigned &clave, const int &intento) {
-
     int aux = pow(intento, 2);
     unsigned int hash = (clave + aux ) % this->tam_max;
     return hash;
 }
 
 unsigned int ThashUsuario::hashDispersionDoble1(const unsigned &clave, const int &intento) {
-    unsigned int primo = calculaPrimo(this->tamMax65);
+    unsigned int primo = calculaPrimo(this->tam_max);
     unsigned int aux=  1 + (intento * primo);
     return aux;
 }
 
 unsigned int ThashUsuario::hashDispersionDoble2(const unsigned &clave, const int &intento) {
-    unsigned int primo = calculaPrimo(this->tamMax68);
-    unsigned int aux=  primo (intento % primo);
+    unsigned int primo = calculaPrimo(this->tam_max);
+    unsigned int aux=  primo * (intento % primo);
     return aux;
 }
 
@@ -125,7 +114,7 @@ bool ThashUsuario::insertar(const int &clave,  Usuario *dato) {
     unsigned int posicion = -1;
 
     for(vector<Entrada>::iterator i = this->usuarios.begin(); this->usuarios[posicion].usuario->getNif() != "-1" ; i++) {
-        if(i->getClave() == clave) {
+        if(i->getUsuario()->getNif() == dato->getNif()) {
             return false;
         }
         posicion =  this->hashDispersionDoble2(clave, intentos);
@@ -144,6 +133,17 @@ bool ThashUsuario::insertar(const int &clave,  Usuario *dato) {
     return true;
 }
 
+
+ThashUsuario::ThashUsuario(const int &maxElementos, const float &lambda) {
+    this->tam_max = maxElementos/lambda;
+    this->factor_carga = lambda;
+    this->util =0;
+    this->max_col =0;
+    this->max_colisiones_10 = 0;
+    this->colisiones = 0;
+    this->clave =0;
+
+}
 
 unsigned int ThashUsuario::calculaPrimo(const int &tam) {
     int valor = tam + 1;
@@ -176,7 +176,7 @@ bool ThashUsuario::borrar(const int &clave) {
         posicion = this->hashCuadratica(clave,intentos);
         // posicion = this->hashDispersionDoble1(clave, intentos);
         //posicion = this->hashDispersionDoble2(clave, intentos);
-        if(this->usuarios[posicion].getUsuarios()->getNif() != "-1") { //las posiciones vacias no nos interesan
+        if(this->usuarios[posicion].getUsuario()->getNif() != "-1") { //las posiciones vacias no nos interesan
             if(this->usuarios[posicion].clave == clave) {
                 encontrado = true;
 
@@ -201,7 +201,7 @@ Usuario* ThashUsuario::buscar(const int &clave) {
        // posicion = this->hashDispersionDoble1(clave, intentos);
         //posicion = this->hashDispersionDoble2(clave, intentos);
 
-        if(this->usuarios[posicion].getUsuarios()->getNif() != "-1") { //las posiciones vacias no nos interesan
+        if(this->usuarios[posicion].getUsuario()->getNif() != "-1") { //las posiciones vacias no nos interesan
             if(this->usuarios[posicion].clave == clave) {
                 encontrado = true;
                 aux = &this->usuarios[posicion];
@@ -233,6 +233,13 @@ unsigned int ThashUsuario::tamTabla() const {
 }
 
 void ThashUsuario::mostrarEstadoTabla() {
+    cout << "Tam max: " << this->tam_max << endl;
+    cout << "Tam util: " << this->util << endl;
+    cout << "Factor carga: " << this->factorCarga() << endl;
+    cout << "Num colisiones : " << this->colisiones << endl;
+    cout << "Num max10 : " << this->max_colisiones_10 << endl;
+    cout << "Promedio colisiones " << this->promedioColisiones() << endl;
+
 }
 
 

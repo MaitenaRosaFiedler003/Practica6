@@ -20,6 +20,5 @@ add_executable(P2
         Fecha.cpp
         Fecha.h
         Usuario.cpp
-        Coche.cpp
         ThashUsuario.h
         ThashUsuario.cpp)
